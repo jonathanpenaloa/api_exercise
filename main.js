@@ -22,7 +22,6 @@ const getNamesOfPeopleFromApi = async () => {
     //     }
     // });
 
-    console.log(peopleArray);
 
     // let genderHiegths = {
     //     talestFemales: undefined,
@@ -61,11 +60,16 @@ const getNamesOfPeopleFromApi = async () => {
 
     // });
     // console.log(genderHiegths);
+    // console.log(peopleArray);
 
     peopleArray.forEach(person => {
-        console.log(`This person ${person.name} and their ship is ${person.startship}`)
+        person.starships.forEach(ship => {
+          fetch(ship).then(res => res.json()).then( data => {
+            console.log(`This person ${person.name} and their ships is ${data.name}`);
+          })
+        });
     })
-
+    
 }
 
 getNamesOfPeopleFromApi();
