@@ -59,7 +59,7 @@ const getNamesOfPeopleFromApi = async () => {
         } 
 
     });
-    console.table(genderHiegths);
+    // console.table(genderHiegths);
     // console.log(peopleArray);
 
     peopleArray.forEach(person => {
@@ -67,12 +67,30 @@ const getNamesOfPeopleFromApi = async () => {
       if(person.starships.length === 0) {
           console.log(`This persin is ${person.name} and they have no ship.`);
       } else {
-        person.starships.forEach(ship => {
-          fetch(ship).then(res => res.json()).then( data => {
-              console.log(`This person ${person.name} and their ships is ${data.name}`);
+
+        
+        const gettingShipsFromPersonArry = async () => {
+          let promisesArray = [];
+
+
+          for(let i=0; i<person.starships; i++) {
+            promisesArray.push((await fetch(person.starships[i])).json());
+
+          }
+          console.log(promisesArray)
+          Promise.all(promisesArray).then(arrayOfShipResponses => {
+              console.log(person.name, arrayOfShipResponses);
+      
   
-            })
-          });
+          })
+        }
+        gettingShipsFromPersonArry();
+          // fetch(ship).then(res => res.json()).then( data => {
+          //     console.log(`This person ${person.name} and their ships is ${data.name}`);
+  
+          //   })
+          
+
       }
        
     })
